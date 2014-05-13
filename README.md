@@ -6,9 +6,9 @@ simple command line keyword search for XML formatted blast results
 
 ##Purpose
 
-Are you tired of waiting for Blast2GO to finish mapping GO terms to your BLAST results?
-Are you just interested in a few key genes that probably are already labeled the description headers of your BLAST result? 
-Then SearchMyBlast may be for you. This program enables you to filter your blast results based on the following fields:
+   Are you tired of waiting for Blast2GO to finish mapping GO terms to your BLAST results?  
+   Are you just interested in a few key genes that probably are already labeled the description headers of your BLAST result?  
+   Then SearchMyBlast may be for you. This program enables you to filter your blast results based on the following fields:  
 
 * Query header: 
  * return query sequences who's header matches a specific keyword or regular expression
