@@ -25,7 +25,19 @@ requires lxml, python3 and pip
     pip install lxml
     git clone https://github.com/joshuaar/SearchMyBlast
     cd SearchMyBlast
+
+to run:
+
     python SearchMyBlast.py ...
+
+To execute as a command:
+
+    echo "python $PWD/SearchMyBlast.py $@" > /usr/local/bin/SearchMyBlast
+    chmod +x /usr/local/bin/SearchMyBlast
+    
+then execute:
+
+    SearchMyBlast ...
     
     
 ##Usage
