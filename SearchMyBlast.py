@@ -32,18 +32,19 @@ def filterOnQuery(input,regex):
 	newits = [i for i in its if re.search( regex , getIterationQDef(i) )]
 	replaceIterations(input,newits)
 
-def matchesAnIterationHitDef(iteration,regex):
+def matchesAnIterationHitDef(iteration,regexs):
 	try:
 		hdefs = iteration.xpath(".//Hit_def")
 	except IndexError:
 		return False
 	hdefText = [i.text for i in hdefs]
-	return len([i for i in hdefText if re.search(regex, i)]) > 0
+	matchesAll = lambda string,regex: len([i for i in regex if re.search(i,string)]) == len(regex) # returns true if all regexes match a string
+	return len([i for i in hdefText if matchesAll(i,regexs)]) > 0
 
-def filterOnHits(input,regex):
+def filterOnHits(input,regexs):
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
-	newits = [i for i in its if matchesAnIterationHitDef(i,regex)]
+	newits = [i for i in its if matchesAnIterationHitDef(i,regexs)]
 	replaceIterations(input,newits)
 
 def MatchesQuerySeqWithHits(iteration,regex):
@@ -85,7 +86,7 @@ def run(args):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Search a BLAST XML result for keywords or sequences")
 	parser.add_argument("-q", "--query", help="Filter on query description regex")
-	parser.add_argument("-t", "--hit", help="Filter on hit discription regex")
+	parser.add_argument("-t", "--hit", help="Filter on hit discription regex", nargs="+")
 	parser.add_argument("-s", "--seq", help="Filter on query sequence regex. Only returns results which have hits and match regex")
 	parser.add_argument("input", help="BLAST XML file", nargs=1)
 	parser.add_argument("--xml", action="store_true", help="Output results as xml (default)")
