@@ -11,11 +11,11 @@ Are you just interested in a few key genes that probably are already labeled the
 Then SearchMyBlast may be for you. This program enables you to filter your blast results based on the following fields:
 
 * Query header: 
- ** return query sequences who's header matches a specific keyword or regular expression
+ * return query sequences who's header matches a specific keyword or regular expression
 * Hit headers:
- ** return query sequences that have hits against proteins matching a specific keyword or regular expression
+ * return query sequences that have hits against proteins matching a specific keyword or regular expression
 * Sequences:
- ** return only query sequences matching a specific regular expression
+ * return only query sequences matching a specific regular expression
 
 The output shares the same format as the input BLAST results, so it can be used in any downstream analysis (Blast2GO, enrichment, etc.)
 
