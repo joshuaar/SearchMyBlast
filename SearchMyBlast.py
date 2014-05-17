@@ -70,8 +70,20 @@ def printQueryList(input):
 		itstext = i.xpath("./Iteration_query-def")[0]
 		print( itstext.text )
 
+def filterOnEVal(input,minval):
+	evalues = input.xpath("//Hsp_evalue")
+	hits = [i.getparent().getparent().getparent() for i in evalues if float(i.text) > minval]
+	rm = lambda x: x.getparent().remove(x)
+	for i in hits:
+		try:
+			rm(i)
+		except AttributeError:
+			pass
+
 def run(args):
 	input = etree.parse(args.input[0])
+	if args.evalue:
+		filterOnEVal(input, args.evalue)
 	if args.query:
 		filterOnQuery(input, args.query)
 	if args.hit:
@@ -86,11 +98,11 @@ def run(args):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description="Search a BLAST XML result for keywords or sequences")
 	parser.add_argument("-q", "--query", help="Filter on query description regex")
+	parser.add_argument("-e", "--evalue", help="Filter on min E value", type=float)
 	parser.add_argument("-t", "--hit", help="Filter on hit discription regex", nargs="+")
 	parser.add_argument("-s", "--seq", help="Filter on query sequence regex. Only returns results which have hits and match regex")
 	parser.add_argument("input", help="BLAST XML file", nargs=1)
 	parser.add_argument("--xml", action="store_true", help="Output results as xml (default)")
 	parser.add_argument("--list", action="store_true", help="Output results as list containing all query headers")
 	args = parser.parse_args()
-	print(args)	
 	run(args)

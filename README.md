@@ -45,11 +45,12 @@ The interface is pretty simple:
 
     usage: SearchMyBlast.py [-h] [-q QUERY] [-t HIT] [-s SEQ] [--xml] [--list] input
 
-The script provides three ways to search your blast results. You can filter BLAST results using either the query sequence headers, th hit sequence headers, or the query sequence iteslf.
+The script provides three ways to search your blast results in addition to e-value filtering. You can filter BLAST results using either the query sequence headers, th hit sequence headers, or the query sequence iteslf.
     
 * -t : search hit headers
 * -q : search query headers
 * -s : search seq headers
+* -e : filter on minimum e value
 
 EXAMPLE:
 
