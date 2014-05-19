@@ -70,6 +70,26 @@ def printQueryList(input):
 		itstext = i.xpath("./Iteration_query-def")[0]
 		print( itstext.text )
 
+def printReadableList(input):
+	itsRoot = getIterationsRoot(input)
+	its = itsRoot.getchildren()
+	qdef = [i.xpath("Iteration_query-def")[0].text for i in its]	
+	hitsdef = [[j.text for j in i.xpath(".//Hit_def")] for i in its]
+	for q,hits in zip(qdef,hitsdef):
+		print ( q )
+		for j in hits:
+			print ( "\t"+j )
+
+def printTopHit(input):
+	itsRoot = getIterationsRoot(input)
+	its = itsRoot.getchildren()
+	hitsdef = [[j.text for j in i.xpath(".//Hit_def")] for i in its]
+	for hits in hitsdef:
+		try:
+			print( hits[0] )
+		except IndexError:
+			print( "." )
+
 def filterOnEVal(input,minval):
 	evalues = input.xpath("//Hsp_evalue")
 	hits = [i.getparent().getparent().getparent() for i in evalues if float(i.text) > minval]
@@ -92,6 +112,10 @@ def run(args):
 		filterOnSeq(input, args.seq)
 	if args.list:
 		printQueryList(input)
+	elif args.readable:
+		printReadableList(input)
+	elif args.tophit:
+		printTopHit(input)
 	else:
 		sys.stdout.write( etree.tostring(input,encoding="UTF-8").decode("utf-8") )
 	
@@ -104,5 +128,7 @@ if __name__ == "__main__":
 	parser.add_argument("input", help="BLAST XML file", nargs=1)
 	parser.add_argument("--xml", action="store_true", help="Output results as xml (default)")
 	parser.add_argument("--list", action="store_true", help="Output results as list containing all query headers")
+	parser.add_argument("--readable", action="store_true", help="Output results as list containing readable hit descriptions")
+	parser.add_argument("--tophit", action="store_true", help="Output results as list containing readable hit descriptions")
 	args = parser.parse_args()
 	run(args)
