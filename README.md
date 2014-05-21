@@ -11,9 +11,10 @@ simple command line keyword search for XML formatted blast results
    Then SearchMyBlast may be for you. This program enables you to filter your blast results based on the following fields:  
 
 * Query header: 
- * return query sequences who's header matches a specific keyword or regular expression
+ * return query sequences with description lines matching a specific keyword or regular expression
 * Hit headers:
- * return query sequences that have hits against proteins matching a specific keyword or regular expression
+ * return query sequences having hits against proteins with description lines matching a specific keyword or regular expression
+ * multiple arguments combine as a boolean AND query, returning description lines matching both arguments
 * Sequences:
  * return only query sequences matching a specific regular expression
 
