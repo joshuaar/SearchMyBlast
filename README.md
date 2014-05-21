@@ -55,9 +55,9 @@ The script provides three ways to search your blast results in addition to e-val
 
 EXAMPLE:
 
-    python SearchMyBlast.py -q "isotig1.*" -t "Olfactory|olfactory" -s "AVHAD" myBlastFile.xml
+    python SearchMyBlast.py -q "isotig1.*" -t "Olfactory|olfactory" -s "AVHAD" -e 0.001 --xml myBlastFile.xml
 
-The above returns all blast results from sequences labeled isotig1.* that align with olfactory proteins and contain the sequence AVHAD.
+The above returns all blast results from sequences labeled isotig1.* that align with olfactory proteins, contain the sequence AVHAD and have an e-value of less thatn 0.001.
 You can mix and match search terms however you like. You do not have to specify all three search fields.
 
 Results are returned by defult as BLAST XML. You can use the --list parameter to output as a list of query sequences.
