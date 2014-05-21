@@ -14,7 +14,7 @@ simple command line keyword search for XML formatted blast results
  * return query sequences with description lines matching a specific keyword or regular expression
 * Hit headers:
  * return query sequences having hits against proteins with description lines matching a specific keyword or regular expression
- * multiple arguments combine as a boolean AND query, returning description lines matching both arguments
+ * multiple arguments combine as a boolean AND query, returning description lines matching all arguments
 * Sequences:
  * return only query sequences matching a specific regular expression
 
