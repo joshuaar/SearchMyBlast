@@ -68,17 +68,20 @@ def printQueryList(input):
 	its = itsRoot.getchildren()
 	for i in its:
 		itstext = i.xpath("./Iteration_query-def")[0]
-		print( itstext.text )
+		itshits = i.xpath(".//Iteration_hits")[0].getchildren()
+		if len(itshits) > 0:
+			print( itstext.text )
 
 def printReadableList(input):
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
 	qdef = [i.xpath("Iteration_query-def")[0].text for i in its]	
 	hitsdef = [[j.text for j in i.xpath(".//Hit_def")] for i in its]
-	for q,hits in zip(qdef,hitsdef):
+	hitseval = [[j.text for j in i.xpath(".//Hsp_evalue")] for i in its]
+	for q,hits,evals in zip(qdef,hitsdef,hitseval):
 		print ( q )
-		for j in hits:
-			print ( "\t"+j )
+		for j,k in zip(hits,evals):
+			print ( "\t"+k+"\t"+j )
 
 def printTopHit(input):
 	itsRoot = getIterationsRoot(input)
