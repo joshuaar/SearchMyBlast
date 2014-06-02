@@ -11,9 +11,10 @@ simple command line keyword search for XML formatted blast results
    Then SearchMyBlast may be for you. This program enables you to filter your blast results based on the following fields:  
 
 * Query header: 
- * return query sequences who's header matches a specific keyword or regular expression
+ * return query sequences with description lines matching a specific keyword or regular expression
 * Hit headers:
- * return query sequences that have hits against proteins matching a specific keyword or regular expression
+ * return query sequences having hits against proteins with description lines matching a specific keyword or regular expression
+ * multiple arguments combine as a boolean AND query, returning description lines matching all arguments
 * Sequences:
  * return only query sequences matching a specific regular expression
 
@@ -54,9 +55,9 @@ The script provides three ways to search your blast results in addition to e-val
 
 EXAMPLE:
 
-    python SearchMyBlast.py -q "isotig1.*" -t "Olfactory|olfactory" -s "AVHAD" myBlastFile.xml
+    python SearchMyBlast.py -q "isotig1.*" -t "Olfactory|olfactory" -s "AVHAD" -e 0.001 --xml myBlastFile.xml
 
-The above returns all blast results from sequences labeled isotig1.* that align with olfactory proteins and contain the sequence AVHAD.
+The above returns all blast results from sequences labeled isotig1.* that align with olfactory proteins, contain the sequence AVHAD and have an e-value of less thatn 0.001.
 You can mix and match search terms however you like. You do not have to specify all three search fields.
 
 Results are returned by defult as BLAST XML. You can use the --list parameter to output as a list of query sequences.
