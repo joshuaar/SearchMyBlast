@@ -4,6 +4,7 @@ import re
 import sys
 
 def parse(input):
+	"Parses XML into memory"
 	return etree.parse(input)
 
 def getIterationsRoot(input):
@@ -23,16 +24,19 @@ def replaceIterations(input,newIterations):
 	return input
 
 def getIterationQDef(iteration):
+	"Gets query description line"
 	qdef = iteration.xpath(".//Iteration_query-def")[0]
 	return qdef.text
 
 def filterOnQuery(input,regex):
+	"Filters on query descrption header"
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
 	newits = [i for i in its if re.search( regex , getIterationQDef(i) )]
 	replaceIterations(input,newits)
 
 def matchesAnIterationHitDef(iteration,regexs):
+	"Matches a reges pattern to the hit description line"
 	try:
 		hdefs = iteration.xpath(".//Hit_def")
 	except IndexError:
@@ -42,12 +46,14 @@ def matchesAnIterationHitDef(iteration,regexs):
 	return len([i for i in hdefText if matchesAll(i,regexs)]) > 0
 
 def filterOnHits(input,regexs):
+	"Filter on keywords within hits"
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
 	newits = [i for i in its if matchesAnIterationHitDef(i,regexs)]
 	replaceIterations(input,newits)
 
 def MatchesQuerySeqWithHits(iteration,regex):
+	"Matches a regex pattern to the query sequence"
 	seq = iteration.xpath(".//Hsp_qseq")
 	if len(seq) == 0:
 		return False
@@ -58,12 +64,14 @@ def MatchesQuerySeqWithHits(iteration,regex):
 		return False
 	
 def filterOnSeq(input,regex):
+	"Filters on query sequence"
 	itsRoot = getIterationsRoot(input)	
 	its = itsRoot.getchildren()
 	newits = [i for i in its if matchesQuerySeqWithHits(i,regex)]
 	replaceIterations(input, newits)
 
 def printQueryList(input):
+	"Prints a list of query sequences in this blast result"
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
 	for i in its:
@@ -73,6 +81,7 @@ def printQueryList(input):
 			print( itstext.text )
 
 def printReadableList(input):
+	"prints a readable list from blast results"
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
 	qdef = [i.xpath("Iteration_query-def")[0].text for i in its]	
@@ -84,6 +93,7 @@ def printReadableList(input):
 			print ( "\t"+k+"\t"+j )
 
 def printTopHit(input):
+	"prints the top hit from each query seq"
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
 	hitsdef = [[j.text for j in i.xpath(".//Hit_def")] for i in its]
@@ -94,6 +104,7 @@ def printTopHit(input):
 			print( "." )
 
 def filterOnEVal(input,minval):
+	"Filters results based on a minimum e-value"
 	evalues = input.xpath("//Hsp_evalue")
 	hits = [i.getparent().getparent().getparent() for i in evalues if float(i.text) > minval]
 	rm = lambda x: x.getparent().remove(x)
