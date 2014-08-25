@@ -97,9 +97,11 @@ def printTopHit(input):
 	itsRoot = getIterationsRoot(input)
 	its = itsRoot.getchildren()
 	hitsdef = [[j.text for j in i.xpath(".//Hit_def")] for i in its]
-	for hits in hitsdef:
+	qdef = [i.xpath("Iteration_query-def")[0].text for i in its]	
+	hitseval = [[j.text for j in i.xpath(".//Hsp_evalue")] for i in its]
+	for hits,q,e in zip(hitsdef,qdef,hitseval):
 		try:
-			print( hits[0] )
+			print( q + "\t" + hits[0] + "\t" + e[0] )
 		except IndexError:
 			print( "." )
 
