@@ -1,0 +1,58 @@
+<tool id="SearchMyBlast_wrapper" name="Search Blast" version="0.1.00">
+    <description>Search through BLAST XML results</description>
+    <command>
+## The command is a Cheetah template which allows some Python based syntax.
+## Lines starting hash hash are comments. Galaxy will turn newlines into spaces
+
+SearchMyBlast.py 
+-e $evalue_cutoff
+#if $query_select=="hit":
+-t $query_string
+#end if
+#if $query_select=="query":
+-q $query_string
+#end if
+#if $query_select=="seq":
+-s $query_string
+#end if
+#if $out_fmt=="xml":
+--xml
+#end if
+#if $out_fmt=="list":
+--list
+#end if
+#if $out_fmt=="readable":
+--readable
+#end if
+$inputfile
+> $output1
+    </command>
+    <inputs>
+        <param name="inputfile" type="data" format="xml" label="BLAST XML Results"/> 
+        <param name="query_select" type="select" label="Search Field">
+            <option value="hit" selected="True">Search hit FASTA header</option>
+            <option value="query">Search query FASTA header</option>
+            <option value="seq">Search Query FASTA sequence</option>
+        </param>
+        <param name="out_fmt" type="select" label="Output Format">
+            <option value="xml" selected="True">BLAST XML</option>
+            <option value="list">List of Sequence Identifiers</option>
+            <option value="readable">Readable Results</option>
+        </param>
+        <param name="evalue_cutoff" type="float" size="15" value="1e-5" label="Set expectation value cutoff" />
+        <param name="query_string" type="text" size="15" value="" label="Search String for Filtering" />
+
+    </inputs>
+    <outputs>
+        <data name="output1" format="xml" label="$query_string on $inputfile">
+        </data>
+    </outputs>
+    <help>
+    
+**What it does**
+
+Search a BLAST XML result using a sequence or header query,
+Outputs hits in a variety of formats.
+
+    </help>
+</tool>
